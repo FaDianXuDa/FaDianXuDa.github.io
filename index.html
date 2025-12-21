@@ -617,7 +617,6 @@
                              ${getKnowledgeName(knowledge)}: ${Math.ceil(y)} → ${gameState.knowledge[knowledge]}<br>
                              思维: ${Math.ceil(k)} → ${gameState.talents.thinking}<br>
                              压力: ${Math.ceil(x)} → ${gameState.pressure} (增加${pressureIncrease})<br>
-                             <span class="text-yellow-300">知识点效果÷100 | 思维效果÷2 | 消耗 1 回合</span>`;
                     break;
                 case 'practice':
                     const boost = gameState.talents.thinking / 100;
