@@ -383,6 +383,20 @@
         let knowledgePointsRemaining = 30;
         let talentPointsRemaining = 15;
 
+        // 向上取整工具函数
+        function ceilAllValues() {
+            // 知识点向上取整
+            Object.keys(gameState.knowledge).forEach(key => {
+                gameState.knowledge[key] = Math.ceil(Math.min(100, gameState.knowledge[key]));
+            });
+            // 天赋向上取整
+            Object.keys(gameState.talents).forEach(key => {
+                gameState.talents[key] = Math.ceil(Math.min(20, gameState.talents[key]));
+            });
+            // 压力向上取整
+            gameState.pressure = Math.ceil(Math.min(100, Math.max(0, gameState.pressure)));
+        }
+
         function updatePointCounters() {
             const knowledgeTotal = Object.values({
                 numberTheory: parseInt(document.getElementById('numberTheory').value) || 0,
@@ -451,35 +465,35 @@
         }
 
         function updateDisplay() {
-            // 更新知识点
-            document.getElementById('ntValue').textContent = Math.round(gameState.knowledge.numberTheory);
-            document.getElementById('ntBar').style.width = `${Math.min(100, gameState.knowledge.numberTheory)}%`;
-            document.getElementById('algValue').textContent = Math.round(gameState.knowledge.algebra);
-            document.getElementById('algBar').style.width = `${Math.min(100, gameState.knowledge.algebra)}%`;
-            document.getElementById('geoValue').textContent = Math.round(gameState.knowledge.geometry);
-            document.getElementById('geoBar').style.width = `${Math.min(100, gameState.knowledge.geometry)}%`;
-            document.getElementById('opValue').textContent = Math.round(gameState.knowledge.operation);
-            document.getElementById('opBar').style.width = `${Math.min(100, gameState.knowledge.operation)}%`;
-            document.getElementById('reaValue').textContent = Math.round(gameState.knowledge.reasoning);
-            document.getElementById('reaBar').style.width = `${Math.min(100, gameState.knowledge.reasoning)}%`;
-            document.getElementById('couValue').textContent = Math.round(gameState.knowledge.counting);
-            document.getElementById('couBar').style.width = `${Math.min(100, gameState.knowledge.counting)}%`;
+            // 知识点显示（取整）
+            document.getElementById('ntValue').textContent = Math.ceil(gameState.knowledge.numberTheory);
+            document.getElementById('ntBar').style.width = `${Math.min(100, Math.ceil(gameState.knowledge.numberTheory))}%`;
+            document.getElementById('algValue').textContent = Math.ceil(gameState.knowledge.algebra);
+            document.getElementById('algBar').style.width = `${Math.min(100, Math.ceil(gameState.knowledge.algebra))}%`;
+            document.getElementById('geoValue').textContent = Math.ceil(gameState.knowledge.geometry);
+            document.getElementById('geoBar').style.width = `${Math.min(100, Math.ceil(gameState.knowledge.geometry))}%`;
+            document.getElementById('opValue').textContent = Math.ceil(gameState.knowledge.operation);
+            document.getElementById('opBar').style.width = `${Math.min(100, Math.ceil(gameState.knowledge.operation))}%`;
+            document.getElementById('reaValue').textContent = Math.ceil(gameState.knowledge.reasoning);
+            document.getElementById('reaBar').style.width = `${Math.min(100, Math.ceil(gameState.knowledge.reasoning))}%`;
+            document.getElementById('couValue').textContent = Math.ceil(gameState.knowledge.counting);
+            document.getElementById('couBar').style.width = `${Math.min(100, Math.ceil(gameState.knowledge.counting))}%`;
 
-            // 更新天赋
-            document.getElementById('careValue').textContent = gameState.talents.carefulness;
-            document.getElementById('careBar').style.width = `${(gameState.talents.carefulness / 20) * 100}%`;
-            document.getElementById('menValue').textContent = gameState.talents.mentality;
-            document.getElementById('menBar').style.width = `${(gameState.talents.mentality / 20) * 100}%`;
-            document.getElementById('speedValue').textContent = gameState.talents.speed;
-            document.getElementById('speedBar').style.width = `${(gameState.talents.speed / 20) * 100}%`;
-            document.getElementById('creaValue').textContent = gameState.talents.creativity;
-            document.getElementById('creaBar').style.width = `${(gameState.talents.creativity / 20) * 100}%`;
-            document.getElementById('thinkValue').textContent = gameState.talents.thinking;
-            document.getElementById('thinkBar').style.width = `${(gameState.talents.thinking / 20) * 100}%`;
+            // 天赋显示（取整）
+            document.getElementById('careValue').textContent = Math.ceil(gameState.talents.carefulness);
+            document.getElementById('careBar').style.width = `${(Math.ceil(gameState.talents.carefulness) / 20) * 100}%`;
+            document.getElementById('menValue').textContent = Math.ceil(gameState.talents.mentality);
+            document.getElementById('menBar').style.width = `${(Math.ceil(gameState.talents.mentality) / 20) * 100}%`;
+            document.getElementById('speedValue').textContent = Math.ceil(gameState.talents.speed);
+            document.getElementById('speedBar').style.width = `${(Math.ceil(gameState.talents.speed) / 20) * 100}%`;
+            document.getElementById('creaValue').textContent = Math.ceil(gameState.talents.creativity);
+            document.getElementById('creaBar').style.width = `${(Math.ceil(gameState.talents.creativity) / 20) * 100}%`;
+            document.getElementById('thinkValue').textContent = Math.ceil(gameState.talents.thinking);
+            document.getElementById('thinkBar').style.width = `${(Math.ceil(gameState.talents.thinking) / 20) * 100}%`;
 
-            // 更新压力
-            document.getElementById('pressureValue').textContent = `${gameState.pressure}/100`;
-            document.getElementById('pressureBar').style.width = `${gameState.pressure}%`;
+            // 压力显示（取整）
+            document.getElementById('pressureValue').textContent = `${Math.ceil(gameState.pressure)}/100`;
+            document.getElementById('pressureBar').style.width = `${Math.ceil(gameState.pressure)}%`;
 
             // 更新回合
             document.getElementById('roundCounter').textContent = `第 ${gameState.round} 回合`;
@@ -522,15 +536,16 @@
                     break;
                 case 'practice':
                     title.textContent = '刷题';
-                    content.innerHTML = `<p class="text-center">所有知识点提升 ${gameState.talents.thinking}%，思维+1，压力+5</p>`;
+                    content.innerHTML = `<p class="text-center">所有知识点提升 ${Math.ceil(gameState.talents.thinking)}%，思维+1，压力+5</p>`;
                     break;
                 case 'rest':
                     title.textContent = '摸鱼';
-                    content.innerHTML = `<p class="text-center">压力 -${gameState.talents.mentality * 3}，心态 +2</p>`;
+                    content.innerHTML = `<p class="text-center">压力 -${Math.ceil(gameState.talents.mentality * 3)}，心态 +2</p>`;
                     break;
                 case 'evil':
                     title.textContent = '邪修';
-                    content.innerHTML = `<p class="text-center">思维 +5，随机知识点 +7，创造力 +2</p>`;
+                    const failRate = Math.max(0, 100 - 10 * gameState.talents.thinking);
+                    content.innerHTML = `<p class="text-center">思维 +5，随机知识点 +7，创造力 +2<br><span class="text-yellow-300">失效概率: ${failRate}%</span></p>`;
                     break;
                 case 'research':
                     title.textContent = '钻研';
@@ -577,84 +592,113 @@
                     const y = gameState.knowledge[knowledge];
                     const newY = (100 - Math.abs(50 - x)) * intensity * (5 + y / 10) * k * 0.01;
                     const newK = k + (50 - Math.abs(40 - x - intensity * 10)) * 0.1;
-                    gameState.knowledge[knowledge] = Math.min(100, newY);
-                    gameState.talents.thinking = Math.min(20, newK);
-                    gameState.pressure = Math.min(100, x + intensity);
+                    gameState.knowledge[knowledge] = newY;
+                    gameState.talents.thinking = newK;
+                    gameState.pressure = x + intensity;
+                    // 所有数值向上取整
+                    ceilAllValues();
                     result = `训练完成！<br>
-                             ${getKnowledgeName(knowledge)}: ${Math.round(y)} → ${Math.round(gameState.knowledge[knowledge])}<br>
-                             思维: ${k.toFixed(1)} → ${gameState.talents.thinking.toFixed(1)}<br>
-                             压力: ${x} → ${gameState.pressure}`;
+                             ${getKnowledgeName(knowledge)}: ${Math.ceil(y)} → ${gameState.knowledge[knowledge]}<br>
+                             思维: ${Math.ceil(k)} → ${gameState.talents.thinking}<br>
+                             压力: ${Math.ceil(x)} → ${gameState.pressure}`;
                     break;
                 case 'practice':
                     const boost = gameState.talents.thinking / 100;
+                    const oldThinking = gameState.talents.thinking;
                     Object.keys(gameState.knowledge).forEach(key => {
-                        gameState.knowledge[key] = Math.min(100, gameState.knowledge[key] * (1 + boost));
+                        gameState.knowledge[key] = gameState.knowledge[key] * (1 + boost);
                     });
-                    gameState.talents.thinking = Math.min(20, gameState.talents.thinking + 1);
-                    gameState.pressure = Math.min(100, gameState.pressure + 5);
+                    gameState.talents.thinking += 1;
+                    gameState.pressure += 5;
+                    // 所有数值向上取整
+                    ceilAllValues();
                     result = `刷题完成！<br>
-                             所有知识点提升 ${gameState.talents.thinking - 1}%<br>
-                             思维: ${gameState.talents.thinking - 1} → ${gameState.talents.thinking}<br>
-                             压力: ${gameState.pressure - 5} → ${gameState.pressure}`;
+                             所有知识点提升 ${Math.ceil(oldThinking)}%<br>
+                             思维: ${Math.ceil(oldThinking)} → ${gameState.talents.thinking}<br>
+                             压力: ${Math.ceil(gameState.pressure - 5)} → ${gameState.pressure}`;
                     break;
                 case 'rest':
                     const reduce = gameState.talents.mentality * 3;
-                    gameState.pressure = Math.max(0, gameState.pressure - reduce);
-                    gameState.talents.mentality = Math.min(20, gameState.talents.mentality + 2);
+                    const oldPressure = gameState.pressure;
+                    const oldMentality = gameState.talents.mentality;
+                    gameState.pressure -= reduce;
+                    gameState.talents.mentality += 2;
+                    // 所有数值向上取整
+                    ceilAllValues();
                     result = `摸鱼愉快！<br>
-                             压力: ${gameState.pressure + reduce} → ${gameState.pressure}<br>
-                             心态: ${gameState.talents.mentality - 2} → ${gameState.talents.mentality}`;
+                             压力: ${Math.ceil(oldPressure)} → ${gameState.pressure}<br>
+                             心态: ${Math.ceil(oldMentality)} → ${gameState.talents.mentality}`;
                     break;
                 case 'evil':
-                    const randomKnowledge = Object.keys(gameState.knowledge)[Math.floor(Math.random() * 6)];
-                    gameState.knowledge[randomKnowledge] = Math.min(100, gameState.knowledge[randomKnowledge] + 7);
-                    gameState.talents.thinking = Math.min(20, gameState.talents.thinking + 5);
-                    gameState.talents.creativity = Math.min(20, gameState.talents.creativity + 2);
-                    result = `邪修完成！<br>
-                             ${getKnowledgeName(randomKnowledge)}: +7<br>
-                             思维: +5<br>
-                             创造力: +2`;
+                    // 计算失效概率 (100-10*思维)%
+                    const failProbability = Math.max(0, 100 - 10 * gameState.talents.thinking);
+                    const isFailed = Math.random() * 100 < failProbability;
+                    
+                    if (isFailed) {
+                        result = `邪修失败！<br>
+                                 本次邪修没有带来任何提升<br>
+                                 失效概率: ${failProbability}%`;
+                    } else {
+                        const randomKnowledge = Object.keys(gameState.knowledge)[Math.floor(Math.random() * 6)];
+                        const oldKnowledge = gameState.knowledge[randomKnowledge];
+                        const oldThinking = gameState.talents.thinking;
+                        const oldCreativity = gameState.talents.creativity;
+                        
+                        gameState.knowledge[randomKnowledge] += 7;
+                        gameState.talents.thinking += 5;
+                        gameState.talents.creativity += 2;
+                        // 所有数值向上取整
+                        ceilAllValues();
+                        
+                        result = `邪修成功！<br>
+                                 ${getKnowledgeName(randomKnowledge)}: ${Math.ceil(oldKnowledge)} → ${gameState.knowledge[randomKnowledge]}<br>
+                                 思维: ${Math.ceil(oldThinking)} → ${gameState.talents.thinking}<br>
+                                 创造力: ${Math.ceil(oldCreativity)} → ${gameState.talents.creativity}`;
+                    }
                     break;
                 case 'research':
                     const researchKnowledge = document.getElementById('researchKnowledge').value;
-                    gameState.knowledge[researchKnowledge] = Math.min(100, gameState.knowledge[researchKnowledge] + 8);
-                    gameState.pressure = Math.min(100, gameState.pressure + 20);
+                    const oldResearchValue = gameState.knowledge[researchKnowledge];
+                    const oldResearchPressure = gameState.pressure;
+                    gameState.knowledge[researchKnowledge] += 8;
+                    gameState.pressure += 20;
+                    // 所有数值向上取整
+                    ceilAllValues();
                     result = `钻研完成！<br>
-                             ${getKnowledgeName(researchKnowledge)}: +8<br>
-                             压力: ${gameState.pressure - 20} → ${gameState.pressure}`;
+                             ${getKnowledgeName(researchKnowledge)}: ${Math.ceil(oldResearchValue)} → ${gameState.knowledge[researchKnowledge]}<br>
+                             压力: ${Math.ceil(oldResearchPressure)} → ${gameState.pressure}`;
                     break;
                 case 'exercise':
-                    gameState.talents.speed = Math.min(20, gameState.talents.speed + 1);
-                    gameState.talents.carefulness = Math.min(20, gameState.talents.carefulness + 1);
-                    gameState.talents.creativity = Math.min(20, gameState.talents.creativity + 2);
-                    gameState.pressure = Math.max(0, gameState.pressure - 8);
+                    const oldExercisePressure = gameState.pressure;
+                    const oldSpeed = gameState.talents.speed;
+                    const oldCare = gameState.talents.carefulness;
+                    const oldCrea = gameState.talents.creativity;
+                    
+                    gameState.talents.speed += 1;
+                    gameState.talents.carefulness += 1;
+                    gameState.talents.creativity += 2;
+                    gameState.pressure -= 8;
+                    // 所有数值向上取整
+                    ceilAllValues();
+                    
                     result = `实践完成！<br>
-                             手速: +1<br>
-                             细心: +1<br>
-                             创造力: +2<br>
-                             压力: ${gameState.pressure + 8} → ${gameState.pressure}`;
+                             手速: ${Math.ceil(oldSpeed)} → ${gameState.talents.speed}<br>
+                             细心: ${Math.ceil(oldCare)} → ${gameState.talents.carefulness}<br>
+                             创造力: ${Math.ceil(oldCrea)} → ${gameState.talents.creativity}<br>
+                             压力: ${Math.ceil(oldExercisePressure)} → ${gameState.pressure}`;
                     break;
                 case 'exam':
                     // 生成0-8之间的随机权重，确保总和为20且无负数
                     let weights = [];
                     let total = 0;
                     for (let i = 0; i < 5; i++) {
-                        const max = Math.min(8, 20 - total - (4 - i) * 0);
+                        const max = Math.min(8, 20 - total);
                         const weight = Math.floor(Math.random() * (max + 1));
                         weights.push(weight);
                         total += weight;
                     }
                     weights.push(20 - total);
                     const [a, b, c, d, e, f] = weights;
-                    
-                    // 计算考试分数（内部使用，不显示）
-                    const baseScore = (100 - gameState.pressure) * (90 + gameState.talents.carefulness) / 100;
-                    const knowledgeScore = a * gameState.knowledge.numberTheory + 
-                                          b * gameState.knowledge.algebra + 
-                                          c * gameState.knowledge.geometry + 
-                                          d * gameState.knowledge.operation + 
-                                          e * gameState.knowledge.reasoning + 
-                                          f * gameState.knowledge.counting;
                     
                     result = `考试完成！<br><br>
                              知识点权重：<br>
@@ -681,15 +725,19 @@
                     button.onclick = () => {
                         const selected = document.getElementById('boostKnowledge').value;
                         const oldValue = gameState.knowledge[selected];
-                        gameState.knowledge[selected] = Math.min(100, oldValue * 1.2);
-                        gameState.pressure = Math.min(100, gameState.pressure * 1.2 + 20);
+                        const oldPressure = gameState.pressure;
+                        
+                        gameState.knowledge[selected] *= 1.2;
+                        gameState.pressure = gameState.pressure * 1.2 + 20;
+                        // 所有数值向上取整
+                        ceilAllValues();
                         
                         content.innerHTML = `<p>提升完成！<br>
-                                            ${getKnowledgeName(selected)}: ${Math.round(oldValue)} → ${Math.round(gameState.knowledge[selected])}<br>
-                                            压力: ${Math.round((gameState.pressure - 20) / 1.2)} → ${Math.round(gameState.pressure)}</p>`;
+                                            ${getKnowledgeName(selected)}: ${Math.ceil(oldValue)} → ${gameState.knowledge[selected]}<br>
+                                            压力: ${Math.ceil((oldPressure * 1.2 + 20 - 20) / 1.2)} → ${gameState.pressure}</p>`;
                         button.textContent = '继续';
                         button.onclick = closeResultModal;
-                        updateDisplay(); // 立即更新显示
+                        updateDisplay();
                     };
                     modal.classList.add('active');
                     break;
