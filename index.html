@@ -682,14 +682,11 @@
                         const selected = document.getElementById('boostKnowledge').value;
                         const oldValue = gameState.knowledge[selected];
                         gameState.knowledge[selected] = Math.min(100, oldValue * 1.2);
-                        gameState.pressure = Math.min(100, gameState.pressure * 1.2);
-                        gameState.talents.mentality = Math.min(20, gameState.talents.mentality * 1.2 + 20);
+                        gameState.pressure = Math.min(100, gameState.pressure * 1.2 + 20);
                         
-                        const oldMentality = gameState.talents.mentality / 1.2 - 20;
                         content.innerHTML = `<p>提升完成！<br>
                                             ${getKnowledgeName(selected)}: ${Math.round(oldValue)} → ${Math.round(gameState.knowledge[selected])}<br>
-                                            压力: ${Math.round(gameState.pressure / 1.2)} → ${Math.round(gameState.pressure)}<br>
-                                            心态: ${Math.round(oldMentality)} → ${Math.round(gameState.talents.mentality)}</p>`;
+                                            压力: ${Math.round((gameState.pressure - 20) / 1.2)} → ${Math.round(gameState.pressure)}</p>`;
                         button.textContent = '继续';
                         button.onclick = closeResultModal;
                         updateDisplay(); // 立即更新显示
