@@ -327,7 +327,7 @@
                 </button>
                 <button onclick="showActionModal('exam')" class="glass rounded-xl p-6 flex flex-col items-center justify-center h-full btn col-span-1 md:col-span-2 lg:col-span-3">
                     <i data-lucide="graduation-cap" class="w-12 h-12 mb-4"></i>
-                    <h3 class="text-xl font-bold">考试</h3>
+                    <h3 class="text-xl font-bold">测试</h3>
                     <p class="text-sm text-center mt-2">检验你的学习成果</p>
                 </button>
             </div>
@@ -533,8 +533,6 @@
                             </div>
                         </div>
                         <div class="mt-4 text-center text-yellow-300">
-                            <p>压力增加量: 强度 × (20 - 当前心态)（当前心态${currentMentality}）</p>
-                            <p>知识点效果系数: 0.0005 | 思维效果系数: 0.05 | 消耗 1 回合</p>
                         </div>
                     `;
                     document.getElementById('trainIntensity').addEventListener('input', (e) => {
@@ -543,16 +541,13 @@
                     break;
                 case 'practice':
                     title.textContent = '刷题';
-                    content.innerHTML = `<p class="text-center">所有知识点提升 ${Math.ceil(gameState.talents.thinking)}%，思维+1，压力+5<br><span class="text-yellow-300">消耗 1 回合</span></p>`;
                     break;
                 case 'rest':
                     title.textContent = '摸鱼';
-                    content.innerHTML = `<p class="text-center">压力 -${Math.ceil(gameState.talents.mentality * 3)}，心态 +2<br><span class="text-yellow-300">消耗 1 回合</span></p>`;
                     break;
                 case 'evil':
                     title.textContent = '邪修';
                     const failRate = Math.max(0, 100 - 3 * gameState.talents.thinking);
-                    content.innerHTML = `<p class="text-center">思维 +5，随机知识点 +7，创造力 +2<br><span class="text-yellow-300">失效概率: ${failRate}% | 消耗 1 回合</span></p>`;
                     break;
                 case 'research':
                     title.textContent = '钻研';
@@ -568,16 +563,13 @@
                                 <option value="counting">计数</option>
                             </select>
                         </div>
-                        <p class="text-center mt-4">压力 +20，该知识点 +8<br><span class="text-yellow-300">消耗 1 回合</span></p>
                     `;
                     break;
                 case 'exercise':
                     title.textContent = '实践';
-                    content.innerHTML = `<p class="text-center">手速 +1，细心 +1，创造力 +2，压力 -8<br><span class="text-yellow-300">消耗 1 回合</span></p>`;
                     break;
                 case 'exam':
-                    title.textContent = '考试';
-                    content.innerHTML = `<p class="text-center">检验你的学习成果！<br><span class="text-yellow-300">消耗 1 回合</span></p>`;
+                    title.textContent = '测试';
                     break;
             }
 
@@ -639,11 +631,11 @@
                              <span class="text-yellow-300">消耗 1 回合</span>`;
                     break;
                 case 'rest':
-                    const reduce = gameState.talents.mentality * 3;
+                    const reduce = gameState.talents.mentality * 2.5;
                     const oldPressure = gameState.pressure;
                     const oldMentality = gameState.talents.mentality;
                     gameState.pressure -= reduce;
-                    gameState.talents.mentality += 2;
+                    gameState.talents.mentality += 1;
                     // 所有数值向上取整
                     ceilAllValues();
                     result = `摸鱼愉快！<br>
@@ -726,7 +718,7 @@
                     weights.push(20 - total);
                     const [a, b, c, d, e, f] = weights;
                     
-                    result = `考试完成！<br><br>
+                    result = `测试完成！<br><br>
                              知识点权重：<br>
                              数论: ${a} | 代数: ${b} | 几何: ${c}<br>
                              操作: ${d} | 推理: ${e} | 计数: ${f}<br><br>
@@ -771,14 +763,13 @@
                     break;
             }
 
+            // 非测试操作直接显示结果
             if (gameState.currentAction !== 'exam') {
                 showResult(result);
             }
             
             closeActionModal();
-            if (gameState.currentAction !== 'exam') {
-                endRound();
-            }
+            // 移除此处的endRound调用，仅保留关闭结果弹窗时的单次调用
         }
 
         function showResult(message) {
@@ -790,6 +781,7 @@
 
         function closeResultModal() {
             document.getElementById('resultModal').classList.remove('active');
+            // 仅在此处调用endRound，确保所有操作只消耗1回合
             endRound();
         }
 
