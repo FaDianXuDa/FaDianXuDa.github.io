@@ -536,8 +536,8 @@
                             </div>
                         </div>
                         <div class="mt-4 text-center text-yellow-300">
-                            <p>压力增加量: 强度 × (20 - 当前心态)（当前心态${currentMentality}）</p>
-                            <p>知识点效果系数: 0.0005 | 思维效果系数: 0.05 | 消耗 1 回合</p>
+                            // <p>压力增加量: 强度 × (20 - 当前心态)（当前心态${currentMentality}）</p>
+                            // <p>知识点效果系数: 0.0005 | 思维效果系数: 0.05 | 消耗 1 回合</p>
                         </div>
                     `;
                     document.getElementById('trainIntensity').addEventListener('input', (e) => {
@@ -546,16 +546,16 @@
                     break;
                 case 'practice':
                     title.textContent = '刷题';
-                    content.innerHTML = `<p class="text-center">所有知识点提升 ${Math.ceil(gameState.talents.thinking)}%，思维+1，压力+5<br><span class="text-yellow-300">消耗 1 回合</span></p>`;
+                    // content.innerHTML = `<p class="text-center">所有知识点提升 ${Math.ceil(gameState.talents.thinking)}%，思维+1，压力+5<br><span class="text-yellow-300">消耗 1 回合</span></p>`;
                     break;
                 case 'rest':
                     title.textContent = '摸鱼';
-                    content.innerHTML = `<p class="text-center">压力 -${Math.ceil(gameState.talents.mentality * 3)}，心态 +2<br><span class="text-yellow-300">消耗 1 回合</span></p>`;
+                    // content.innerHTML = `<p class="text-center">压力 -${Math.ceil(gameState.talents.mentality * 3)}，心态 +2<br><span class="text-yellow-300">消耗 1 回合</span></p>`;
                     break;
                 case 'evil':
                     title.textContent = '邪修';
                     const failRate = Math.max(0, 100 - 3 * gameState.talents.thinking);
-                    content.innerHTML = `<p class="text-center">思维 +5，随机知识点 +7，创造力 +2<br><span class="text-yellow-300">失效概率: ${failRate}% | 消耗 1 回合</span></p>`;
+                    content.innerHTML = `<p class="text-center"><span class="text-yellow-300">失效概率: ${failRate}% | 消耗 1 回合</span></p>`;
                     break;
                 case 'research':
                     title.textContent = '钻研';
@@ -571,16 +571,16 @@
                                 <option value="counting">计数</option>
                             </select>
                         </div>
-                        <p class="text-center mt-4">压力 +20，该知识点 +8<br><span class="text-yellow-300">消耗 1 回合</span></p>
+                        // <p class="text-center mt-4">压力 +20，该知识点 +8<br><span class="text-yellow-300">消耗 1 回合</span></p>
                     `;
                     break;
                 case 'exercise':
                     title.textContent = '实践';
-                    content.innerHTML = `<p class="text-center">手速 +1，细心 +1，创造力 +2，压力 -8<br><span class="text-yellow-300">消耗 1 回合</span></p>`;
+                    // content.innerHTML = `<p class="text-center">手速 +1，细心 +1，创造力 +2，压力 -8<br><span class="text-yellow-300">消耗 1 回合</span></p>`;
                     break;
                 case 'exam':
                     title.textContent = '考试';
-                    content.innerHTML = `<p class="text-center">检验你的学习成果！<br><span class="text-yellow-300">消耗 1 回合</span></p>`;
+                    // content.innerHTML = `<p class="text-center">检验你的学习成果！<br><span class="text-yellow-300">消耗 1 回合</span></p>`;
                     break;
             }
 
@@ -623,7 +623,7 @@
                              ${getKnowledgeName(knowledge)}: ${Math.ceil(y)} → ${gameState.knowledge[knowledge]}<br>
                              思维: ${Math.ceil(k)} → ${gameState.talents.thinking}<br>
                              压力: ${Math.ceil(x)} → ${gameState.pressure} (增加${Math.ceil(z * (20 - mentality))})<br>
-                             <span class="text-yellow-300">知识点系数:0.0005 | 思维系数:0.05 | 消耗 1 回合</span>`;
+                             <span class="text-yellow-300">消耗 1 回合</span>`;
                     break;
                 case 'practice':
                     const boost = gameState.talents.thinking / 100;
