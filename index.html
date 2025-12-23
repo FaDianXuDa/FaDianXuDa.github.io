@@ -12,6 +12,8 @@
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            margin: 0;
+            padding: 0;
         }
         .glass {
             background: rgba(255, 255, 255, 0.25);
@@ -20,6 +22,7 @@
         }
         .btn {
             transition: all 0.3s ease;
+            cursor: pointer; /* 新增：确保按钮有鼠标指针 */
         }
         .btn:hover {
             transform: translateY(-2px);
@@ -45,11 +48,11 @@
             background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(5px);
             z-index: 1000;
+            align-items: center; /* 新增：确保flex布局生效 */
+            justify-content: center; /* 新增：确保flex布局生效 */
         }
         .modal.active {
             display: flex;
-            align-items: center;
-            justify-content: center;
         }
         /* 压力等级样式 */
         .pressure-level {
@@ -65,6 +68,7 @@
         .story-modal {
             background: rgba(15, 23, 42, 0.95);
             border: 2px solid #8b5cf6;
+            z-index: 2000; /* 提高层级，确保在最上层 */
         }
     </style>
 </head>
@@ -77,7 +81,8 @@
                 巨浪同志的树穴老邓被滚回了精神病院，导致了巨浪的初中树穴牢尸不见了，需要长达一坤年的自学。<br>
                 而被肘死的巨浪同志也是成功重生了。这一世，他要夺回属于他的一切！
             </p>
-            <button onclick="closeStoryModal()" class="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-700 font-bold text-lg btn">
+            <!-- 修复：按钮添加id，确保事件绑定生效 -->
+            <button id="storyCloseBtn" class="w-full py-3 rounded-xl bg-purple-600 hover:bg-purple-700 font-bold text-lg btn">
                 开始我的重生之路
             </button>
         </div>
@@ -425,6 +430,12 @@
 
         let knowledgePointsRemaining = 30;
         let talentPointsRemaining = 15;
+
+        // 修复：使用DOMContentLoaded确保元素加载完成后绑定事件
+        document.addEventListener('DOMContentLoaded', function() {
+            // 绑定剧情弹窗关闭按钮事件
+            document.getElementById('storyCloseBtn').addEventListener('click', closeStoryModal);
+        });
 
         // 关闭剧情弹窗
         function closeStoryModal() {
